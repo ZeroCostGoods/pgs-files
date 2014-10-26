@@ -1,0 +1,12 @@
+language: rust
+
+os:
+    - linux
+
+before_script:
+    - rustc -v
+    - cargo -V
+
+branches:
+  only:
+    - master
