@@ -7,10 +7,6 @@ env:
 os:
     - linux
 
-before_script:
-    - rustc --version
-    - cargo --version
-
 script:
     - cargo build --verbose
     - cargo test --verbose
