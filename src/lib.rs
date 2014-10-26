@@ -8,3 +8,4 @@ extern crate libc;
 mod passwd;
 mod group;
 mod shadow;
+mod entries;
