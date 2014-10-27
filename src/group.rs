@@ -1,6 +1,6 @@
 //! Fuctions and Structs for dealing with /etc/group
 
-use libc::types::os::arch::posix88::gid_t;
+use libc::gid_t;
 
 use entries::{Entries,Entry};
 

@@ -1,7 +1,7 @@
 //! Fuctions and Structs for dealing with /etc/passwd
 
-use libc::types::os::arch::posix88::uid_t;
-use libc::types::os::arch::posix88::gid_t;
+use libc::uid_t;
+use libc::gid_t;
 
 use entries::{Entries,Entry};
 
