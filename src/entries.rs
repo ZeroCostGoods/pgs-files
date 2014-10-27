@@ -23,11 +23,7 @@ pub struct Entries<T> {
 
 impl<T> Entries<T> {
     pub fn new(file: &Path) -> Entries<T> {
-
-        let reader = BufferedReader::new(
-            File::open(file)
-        );
-
+        let reader = BufferedReader::new(File::open(file));
         Entries { cursor: reader }
     }
 }
