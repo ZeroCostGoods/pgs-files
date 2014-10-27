@@ -53,12 +53,7 @@ impl Entry<PasswdEntry> for PasswdEntry {
 /// Return a [`PasswdEntry`](struct.PasswdEntry.html)
 /// for a given `uid` and `&Path`
 pub fn get_entry_by_uid_from_path(path: &Path, uid: uid_t) -> Option<PasswdEntry> {
-    for entry in Entries::<PasswdEntry>::new(path) {
-        if entry.uid == uid {
-            return Some(entry);
-        }
-    }
-    None
+    Entries::<PasswdEntry>::new(path).find(|x| x.uid == uid)
 }
 
 
@@ -72,12 +67,7 @@ pub fn get_entry_by_uid(uid: uid_t) -> Option<PasswdEntry> {
 /// Return a [`PasswdEntry`](struct.PasswdEntry.html)
 /// for a given `name` and `&Path`
 pub fn get_entry_by_name_from_path(path: &Path, name: &str) -> Option<PasswdEntry> {
-    for entry in Entries::<PasswdEntry>::new(path) {
-        if entry.name.as_slice() == name {
-            return Some(entry);
-        }
-    }
-    None
+    Entries::<PasswdEntry>::new(path).find(|x| x.name.as_slice() == name)
 }
 
 

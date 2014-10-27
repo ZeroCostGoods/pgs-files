@@ -50,12 +50,7 @@ impl Entry<GroupEntry> for GroupEntry {
 /// Return a [`GroupEntry`](struct.GroupEntry.html)
 /// for a given `uid` and `&Path`
 pub fn get_entry_by_gid_from_path(path: &Path, gid: gid_t) -> Option<GroupEntry> {
-    for entry in Entries::<GroupEntry>::new(path) {
-        if entry.gid == gid {
-            return Some(entry);
-        }
-    }
-    None
+    Entries::<GroupEntry>::new(path).find(|x| x.gid == gid)
 }
 
 
@@ -69,12 +64,7 @@ pub fn get_entry_by_gid(gid: gid_t) -> Option<GroupEntry> {
 /// Return a [`GroupEntry`](struct.GroupEntry.html)
 /// for a given `name` and `&Path`
 pub fn get_entry_by_name_from_path(path: &Path, name: &str) -> Option<GroupEntry> {
-    for entry in Entries::<GroupEntry>::new(path) {
-        if entry.name.as_slice() == name {
-            return Some(entry);
-        }
-    }
-    None
+    Entries::<GroupEntry>::new(path).find(|x| x.name.as_slice() == name)
 }
 
 
