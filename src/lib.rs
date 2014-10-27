@@ -1,3 +1,5 @@
+//! A Library for parsing /etc/{passwd,group,shadow} files.
+
 extern crate libc;
 
 pub use entries::{Entries,Entry};

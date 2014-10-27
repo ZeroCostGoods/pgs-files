@@ -1,9 +1,12 @@
+//! Fuctions and Structs for dealing with /etc/shadow
+
 use libc::types::os::arch::c95::c_long;
 use libc::types::os::arch::c95::c_ulong;
 
 use entries::{Entries,Entry};
 
 
+/// An entry from /etc/shadow
 #[deriving(Show, PartialEq, PartialOrd)]
 pub struct ShadowEntry {
     /// Login name
@@ -56,6 +59,8 @@ impl Entry<ShadowEntry> for ShadowEntry {
 }
 
 
+/// Return a [`ShadowEntry`](struct.ShadowEntry.html)
+/// for a given `name` and `&Path`
 pub fn get_entry_by_name_from_path(path: &Path, name: &str) -> Option<ShadowEntry> {
     for entry in Entries::<ShadowEntry>::new(path) {
         if entry.name.as_slice() == name {
@@ -66,16 +71,22 @@ pub fn get_entry_by_name_from_path(path: &Path, name: &str) -> Option<ShadowEntr
 }
 
 
+/// Return a [`ShadowEntry`](struct.ShadowEntry.html)
+/// for a given `name` from `/etc/shadow`
 pub fn get_entry_by_name(name: &str) -> Option<ShadowEntry> {
     get_entry_by_name_from_path(&Path::new("/etc/shadow"), name)
 }
 
 
+/// Return a `Vec<`[`ShadowEntry`](struct.ShadowEntry.html)`>` containing all
+/// [`ShadowEntry`](struct.ShadowEntry.html)'s for a given `&Path`
 pub fn get_all_entries_from_path(path: &Path) -> Vec<ShadowEntry> {
     Entries::new(&Path::new(path)).collect()
 }
 
 
+/// Return a `Vec<`[`ShadowEntry`](struct.ShadowEntry.html)`>` containing all
+/// [`ShadowEntry`](struct.ShadowEntry.html)'s from `/etc/shadow`
 pub fn get_all_entries() -> Vec<ShadowEntry> {
     get_all_entries_from_path(&Path::new("/etc/shadow"))
 }
