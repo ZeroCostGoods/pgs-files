@@ -62,12 +62,7 @@ impl Entry<ShadowEntry> for ShadowEntry {
 /// Return a [`ShadowEntry`](struct.ShadowEntry.html)
 /// for a given `name` and `&Path`
 pub fn get_entry_by_name_from_path(path: &Path, name: &str) -> Option<ShadowEntry> {
-    for entry in Entries::<ShadowEntry>::new(path) {
-        if entry.name.as_slice() == name {
-            return Some(entry);
-        }
-    }
-    None
+    Entries::<ShadowEntry>::new(path).find(|x| x.name.as_slice() == name)
 }
 
 
@@ -81,7 +76,7 @@ pub fn get_entry_by_name(name: &str) -> Option<ShadowEntry> {
 /// Return a `Vec<`[`ShadowEntry`](struct.ShadowEntry.html)`>` containing all
 /// [`ShadowEntry`](struct.ShadowEntry.html)'s for a given `&Path`
 pub fn get_all_entries_from_path(path: &Path) -> Vec<ShadowEntry> {
-    Entries::new(&Path::new(path)).collect()
+    Entries::new(path).collect()
 }
 
 

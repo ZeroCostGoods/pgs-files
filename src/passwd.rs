@@ -1,7 +1,7 @@
 //! Fuctions and Structs for dealing with /etc/passwd
 
-use libc::types::os::arch::posix88::uid_t;
-use libc::types::os::arch::posix88::gid_t;
+use libc::uid_t;
+use libc::gid_t;
 
 use entries::{Entries,Entry};
 
@@ -53,12 +53,7 @@ impl Entry<PasswdEntry> for PasswdEntry {
 /// Return a [`PasswdEntry`](struct.PasswdEntry.html)
 /// for a given `uid` and `&Path`
 pub fn get_entry_by_uid_from_path(path: &Path, uid: uid_t) -> Option<PasswdEntry> {
-    for entry in Entries::<PasswdEntry>::new(path) {
-        if entry.uid == uid {
-            return Some(entry);
-        }
-    }
-    None
+    Entries::<PasswdEntry>::new(path).find(|x| x.uid == uid)
 }
 
 
@@ -72,12 +67,7 @@ pub fn get_entry_by_uid(uid: uid_t) -> Option<PasswdEntry> {
 /// Return a [`PasswdEntry`](struct.PasswdEntry.html)
 /// for a given `name` and `&Path`
 pub fn get_entry_by_name_from_path(path: &Path, name: &str) -> Option<PasswdEntry> {
-    for entry in Entries::<PasswdEntry>::new(path) {
-        if entry.name.as_slice() == name {
-            return Some(entry);
-        }
-    }
-    None
+    Entries::<PasswdEntry>::new(path).find(|x| x.name.as_slice() == name)
 }
 
 
@@ -91,7 +81,7 @@ pub fn get_entry_by_name(name: &str) -> Option<PasswdEntry> {
 /// Return a `Vec<`[`PasswdEntry`](struct.PasswdEntry.html)`>` containing all
 /// [`PasswdEntry`](struct.PasswdEntry.html)'s for a given `&Path`
 pub fn get_all_entries_from_path(path: &Path) -> Vec<PasswdEntry> {
-    Entries::new(&Path::new(path)).collect()
+    Entries::new(path).collect()
 }
 
 

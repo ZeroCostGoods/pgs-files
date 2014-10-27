@@ -23,11 +23,7 @@ pub struct Entries<T> {
 
 impl<T> Entries<T> {
     pub fn new(file: &Path) -> Entries<T> {
-
-        let reader = BufferedReader::new(
-            File::open(file)
-        );
-
+        let reader = BufferedReader::new(File::open(file));
         Entries { cursor: reader }
     }
 }
@@ -36,9 +32,8 @@ impl<T> Entries<T> {
 impl<T: Entry<T>> Iterator<T> for Entries<T> {
 
     fn next(&mut self) -> Option<T> {
-        let line = self.cursor.read_line();
-        match line {
-            Ok(_line) => Some(Entry::from_line(_line)),
+        match self.cursor.read_line() {
+            Ok(line) => Some(Entry::from_line(line)),
             _ => None,
         }
     }
