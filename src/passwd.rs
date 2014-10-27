@@ -6,25 +6,25 @@ use entries::{Entries,Entry};
 #[deriving(Show, PartialEq, PartialOrd)]
 pub struct PasswdEntry {
     /// Username
-    name: String,
+    pub name: String,
 
     /// User Password
-    passwd: String,
+    pub passwd: String,
 
     /// User ID
-    uid: uid_t,
+    pub uid: uid_t,
 
     /// Group ID
-    gid: gid_t,
+    pub gid: gid_t,
 
     /// User Information
-    gecos: String,
+    pub gecos: String,
 
     /// Home Directory
-    dir: String,
+    pub dir: String,
 
     /// User's Shell
-    shell: String,
+    pub shell: String,
 }
 
 
@@ -83,93 +83,4 @@ pub fn get_all_entries_from_path(path: &Path) -> Vec<PasswdEntry> {
 
 pub fn get_all_entries() -> Vec<PasswdEntry> {
     get_all_entries_from_path(&Path::new("/etc/passwd"))
-}
-
-
-#[test]
-fn get_entry_by_uid_test() {
-    let entry = get_entry_by_uid_from_path(&Path::new("testdata/passwd"), 0);
-    assert!(entry.unwrap() == PasswdEntry {
-        name: "root".to_string(),
-        passwd: "x".to_string(),
-        uid: 0,
-        gid: 0,
-        gecos: "root".to_string(),
-        dir: "/root".to_string(),
-        shell: "/bin/bash".to_string(),
-     });
-
-    let entry = get_entry_by_uid_from_path(&Path::new("testdata/passwd"), 1000);
-    assert!(entry.unwrap() == PasswdEntry {
-        name: "gary".to_string(),
-        passwd: "x".to_string(),
-        uid: 1000,
-        gid: 1000,
-        gecos: "Gary Josack,,,".to_string(),
-        dir: "/home/gary".to_string(),
-        shell: "/bin/bash".to_string(),
-     });
-
-    let entry = get_entry_by_uid_from_path(&Path::new("testdata/passwd"), 666);
-    assert!(entry == None);
-
-}
-
-
-#[test]
-fn get_entry_by_name_test() {
-    let entry = get_entry_by_name_from_path(&Path::new("testdata/passwd"), "root");
-    assert!(entry.unwrap() == PasswdEntry {
-        name: "root".to_string(),
-        passwd: "x".to_string(),
-        uid: 0,
-        gid: 0,
-        gecos: "root".to_string(),
-        dir: "/root".to_string(),
-        shell: "/bin/bash".to_string(),
-    });
-
-    let entry = get_entry_by_name_from_path(&Path::new("testdata/passwd"), "gary");
-    assert!(entry.unwrap() == PasswdEntry {
-        name: "gary".to_string(),
-        passwd: "x".to_string(),
-        uid: 1000,
-        gid: 1000,
-        gecos: "Gary Josack,,,".to_string(),
-        dir: "/home/gary".to_string(),
-        shell: "/bin/bash".to_string(),
-    });
-
-    let entry = get_entry_by_name_from_path(&Path::new("testdata/passwd"), "zay");
-    assert!(entry == None);
-
-}
-
-
-#[test]
-fn get_all_entries_test() {
-    let entries = get_all_entries_from_path(&Path::new("testdata/passwd"));
-    let expected = vec![
-        PasswdEntry {
-            name: "root".to_string(),
-            passwd: "x".to_string(),
-            uid: 0,
-            gid: 0,
-            gecos: "root".to_string(),
-            dir: "/root".to_string(),
-            shell: "/bin/bash".to_string(),
-        },
-        PasswdEntry {
-            name: "gary".to_string(),
-            passwd: "x".to_string(),
-            uid: 1000,
-            gid: 1000,
-            gecos: "Gary Josack,,,".to_string(),
-            dir: "/home/gary".to_string(),
-            shell: "/bin/bash".to_string(),
-        },
-    ];
-
-    assert!(entries == expected);
-
 }

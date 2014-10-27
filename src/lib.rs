@@ -1,8 +1,9 @@
-#![crate_name = "pgs-files"]
-
 extern crate libc;
+
+pub use entries::{Entries,Entry};
+
+mod entries;
 
 pub mod passwd;
 pub mod group;
 pub mod shadow;
-pub mod entries;

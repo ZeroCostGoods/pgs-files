@@ -7,16 +7,16 @@ use entries::{Entries,Entry};
 pub struct GroupEntry {
 
     /// Group Name
-    name: String,
+    pub name: String,
 
     /// Group Password
-    passwd: String,
+    pub passwd: String,
 
     /// Group ID
-    gid: gid_t,
+    pub gid: gid_t,
 
     /// Group Members
-    members: Vec<String>,
+    pub members: Vec<String>,
 
 }
 
@@ -81,75 +81,4 @@ pub fn get_all_entries_from_path(path: &Path) -> Vec<GroupEntry> {
 
 pub fn get_all_entries() -> Vec<GroupEntry> {
     get_all_entries_from_path(&Path::new("/etc/group"))
-}
-
-
-#[test]
-fn get_entry_by_gid_test() {
-    let entry = get_entry_by_gid_from_path(&Path::new("testdata/group"), 0);
-    assert!(entry.unwrap() == GroupEntry {
-        name: "root".to_string(),
-        passwd: "x".to_string(),
-        gid: 0,
-        members: Vec::<String>::new(),
-    });
-
-    let entry = get_entry_by_gid_from_path(&Path::new("testdata/group"), 4);
-    assert!(entry.unwrap() == GroupEntry {
-        name: "adm".to_string(),
-        passwd: "x".to_string(),
-        gid: 4,
-        members: vec!["gary".to_string(), "root".to_string()],
-    });
-
-    let entry = get_entry_by_gid_from_path(&Path::new("testdata/group"), 666);
-    assert!(entry == None);
-
-}
-
-
-#[test]
-fn get_entry_by_name_test() {
-    let entry = get_entry_by_name_from_path(&Path::new("testdata/group"), "root");
-    assert!(entry.unwrap() == GroupEntry {
-        name: "root".to_string(),
-        passwd: "x".to_string(),
-        gid: 0,
-        members: vec![],
-    });
-
-    let entry = get_entry_by_name_from_path(&Path::new("testdata/group"), "adm");
-    assert!(entry.unwrap() == GroupEntry {
-        name: "adm".to_string(),
-        passwd: "x".to_string(),
-        gid: 4,
-        members: vec!["gary".to_string(), "root".to_string()],
-    });
-
-    let entry = get_entry_by_name_from_path(&Path::new("testdata/group"), "zay");
-    assert!(entry == None);
-
-}
-
-
-#[test]
-fn get_all_entries_test() {
-    let entries = get_all_entries_from_path(&Path::new("testdata/group"));
-    let expected = vec![
-        GroupEntry {
-            name: "root".to_string(),
-            passwd: "x".to_string(),
-            gid: 0,
-            members: vec![],
-        },
-        GroupEntry {
-            name: "adm".to_string(),
-            passwd: "x".to_string(),
-            gid: 4,
-            members: vec!["gary".to_string(), "root".to_string()],
-        },
-    ];
-
-    assert_eq!(entries, expected);
-
 }

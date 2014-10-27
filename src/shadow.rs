@@ -7,32 +7,32 @@ use entries::{Entries,Entry};
 #[deriving(Show, PartialEq, PartialOrd)]
 pub struct ShadowEntry {
     /// Login name
-    name: String,
+    pub name: String,
 
     /// Encrypted password
-    passwd: String,
+    pub passwd: String,
 
     /// Date of last change (measured in days since 1970-01-01 00:00:00 +0000 (UTC))
-    last_change: c_long,
+    pub last_change: c_long,
 
     /// Min number of days between changes
-    min: c_long,
+    pub min: c_long,
 
     /// Max number of days between changes
-    max: c_long,
+    pub max: c_long,
 
     /// Number of days before password expires to warn user to change it
-    warning: c_long,
+    pub warning: c_long,
 
     /// Number of days after password expires until account is disabled
-    inactivity: c_long,
+    pub inactivity: c_long,
 
     /// Date when account expires (measured
     /// in days since 1970-01-01 00:00:00 +0000 (UTC))
-    expires: c_long,
+    pub expires: c_long,
 
     /// Reserved
-    flag: c_ulong,
+    pub flag: c_ulong,
 }
 
 
@@ -78,58 +78,4 @@ pub fn get_all_entries_from_path(path: &Path) -> Vec<ShadowEntry> {
 
 pub fn get_all_entries() -> Vec<ShadowEntry> {
     get_all_entries_from_path(&Path::new("/etc/shadow"))
-}
-
-
-#[test]
-fn get_entry_by_name_test() {
-    let entry = get_entry_by_name_from_path(&Path::new("testdata/shadow"), "root");
-    assert!(entry.unwrap() == ShadowEntry {
-        name: "root".to_string(),
-        passwd: "!".to_string(),
-        last_change: 16034,
-        min: 0,
-        max: 99999,
-        warning: 7,
-        inactivity: -1,
-        expires: -1,
-        flag: 0,
-    });
-
-    let entry = get_entry_by_name_from_path(&Path::new("testdata/shadow"), "zay");
-    assert!(entry == None);
-
-}
-
-
-#[test]
-fn get_all_entries_test() {
-    let entries = get_all_entries_from_path(&Path::new("testdata/shadow"));
-    let expected = vec![
-        ShadowEntry {
-            name: "root".to_string(),
-            passwd: "!".to_string(),
-            last_change: 16034,
-            min: 0,
-            max: 99999,
-            warning: 7,
-            inactivity: -1,
-            expires: -1,
-            flag: 0,
-        },
-        ShadowEntry {
-            name: "gary".to_string(),
-            passwd: "*".to_string(),
-            last_change: 16034,
-            min: 0,
-            max: 99999,
-            warning: 7,
-            inactivity: -1,
-            expires: -1,
-            flag: 0,
-        },
-    ];
-
-    assert!(entries == expected);
-
 }
