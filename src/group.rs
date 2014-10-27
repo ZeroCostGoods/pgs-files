@@ -88,7 +88,7 @@ pub fn get_entry_by_name(name: &str) -> Option<GroupEntry> {
 /// Return a `Vec<`[`GroupEntry`](struct.GroupEntry.html)`>` containing all
 /// [`GroupEntry`](struct.GroupEntry.html)'s for a given `&Path`
 pub fn get_all_entries_from_path(path: &Path) -> Vec<GroupEntry> {
-    Entries::new(&Path::new(path)).collect()
+    Entries::new(path).collect()
 }
 
 

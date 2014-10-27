@@ -81,7 +81,7 @@ pub fn get_entry_by_name(name: &str) -> Option<ShadowEntry> {
 /// Return a `Vec<`[`ShadowEntry`](struct.ShadowEntry.html)`>` containing all
 /// [`ShadowEntry`](struct.ShadowEntry.html)'s for a given `&Path`
 pub fn get_all_entries_from_path(path: &Path) -> Vec<ShadowEntry> {
-    Entries::new(&Path::new(path)).collect()
+    Entries::new(path).collect()
 }
 
 

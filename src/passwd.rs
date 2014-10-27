@@ -91,7 +91,7 @@ pub fn get_entry_by_name(name: &str) -> Option<PasswdEntry> {
 /// Return a `Vec<`[`PasswdEntry`](struct.PasswdEntry.html)`>` containing all
 /// [`PasswdEntry`](struct.PasswdEntry.html)'s for a given `&Path`
 pub fn get_all_entries_from_path(path: &Path) -> Vec<PasswdEntry> {
-    Entries::new(&Path::new(path)).collect()
+    Entries::new(path).collect()
 }
 
 
