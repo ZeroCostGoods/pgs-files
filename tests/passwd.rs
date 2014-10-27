@@ -1,7 +1,7 @@
-extern crate "pgs-files" as pgs;
+extern crate pgs_files;
 
-use pgs::passwd;
-use pgs::passwd::PasswdEntry;
+use pgs_files::passwd;
+use pgs_files::passwd::PasswdEntry;
 
 
 #[test]

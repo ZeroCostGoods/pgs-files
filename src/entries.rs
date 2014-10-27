@@ -8,6 +8,9 @@ use std::io::{BufferedReader,File,IoResult};
 /// #### Iterate over /etc/passwd printing usernames
 ///
 /// ```
+/// use pgs_files::passwd::PasswdEntry;
+/// use pgs_files::Entries;
+///
 /// for entry in Entries::<PasswdEntry>::new(&Path::new("/etc/passwd")) {
 ///     println!("{}", entry.name);
 /// }

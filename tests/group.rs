@@ -1,7 +1,7 @@
-extern crate "pgs-files" as pgs;
+extern crate pgs_files;
 
-use pgs::group;
-use pgs::group::GroupEntry;
+use pgs_files::group;
+use pgs_files::group::GroupEntry;
 
 
 #[test]

@@ -5,9 +5,9 @@
 //! Print my `username`, `uid`, `homedir`, and `shell`
 //!
 //! ```
-//! extern crate "pgs-files" as pgs;
+//! extern crate pgs_files;
 //!
-//! use pgs::passwd;
+//! use pgs_files::passwd;
 //!
 //! fn main() {
 //!     let entry = passwd::get_entry_by_name("gary");

@@ -8,4 +8,4 @@ Rust library for reading /etc/{passwd,group,shadow} files.
 
 ### Documentation
 
-Available at [Rust-CI](http://www.rust-ci.org/gmjosack/pgs-files.rs/doc/pgs-files/)
+Available at [Rust-CI](http://www.rust-ci.org/gmjosack/pgs-files.rs/doc/pgs_files/)

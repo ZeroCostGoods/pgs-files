@@ -1,10 +1,5 @@
 [package]
 
-name = "pgs-files"
+name = "pgs_files"
 version = "0.0.1"
 authors = ["Gary M. Josack <gary@byoteki.com>"]
-
-[lib]
-
-name = "pgs-files"
-doctest = false

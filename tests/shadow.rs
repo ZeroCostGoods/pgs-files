@@ -1,7 +1,7 @@
-extern crate "pgs-files" as pgs;
+extern crate pgs_files;
 
-use pgs::shadow;
-use pgs::shadow::ShadowEntry;
+use pgs_files::shadow;
+use pgs_files::shadow::ShadowEntry;
 
 
 
