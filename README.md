@@ -4,7 +4,7 @@
 
 ### Description
 
-Rust Library for handling /etc/{passwd,group,shadow} files
+Rust library for reading /etc/{passwd,group,shadow} files.
 
 ### Documentation
 
