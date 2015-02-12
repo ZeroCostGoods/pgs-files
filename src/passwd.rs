@@ -5,9 +5,8 @@ use libc::gid_t;
 
 use entries::{Entries,Entry};
 
-
 /// An entry from /etc/passwd
-#[deriving(Show, PartialEq, PartialOrd)]
+#[derive(Debug, PartialEq, PartialOrd)]
 pub struct PasswdEntry {
     /// Username
     pub name: String,
@@ -40,8 +39,8 @@ impl Entry<PasswdEntry> for PasswdEntry {
         PasswdEntry {
             name: parts[0].to_string(),
             passwd: parts[1].to_string(),
-            uid: from_str(parts[2]).unwrap(),
-            gid: from_str(parts[3]).unwrap(),
+            uid: parts[2].parse().unwrap(),
+            gid: parts[3].parse().unwrap(),
             gecos: parts[4].to_string(),
             dir: parts[5].to_string(),
             shell: parts[6].to_string(),

@@ -1,3 +1,5 @@
+#![feature(path)]
+
 extern crate pgs_files;
 
 use pgs_files::shadow;

@@ -1,4 +1,4 @@
-use std::io::{BufferedReader,File,IoResult};
+use std::old_io::{BufferedReader,File,IoResult};
 
 /// Generic `Iterator` over implementor's of
 /// [`Entry`](trait.Entry.html)'s.
@@ -29,11 +29,13 @@ impl<T> Entries<T> {
 }
 
 
-impl<T: Entry<T>> Iterator<T> for Entries<T> {
+impl<T: Entry<T>> Iterator for Entries<T> {
+
+    type Item = T;
 
     fn next(&mut self) -> Option<T> {
         match self.cursor.read_line() {
-            Ok(line) => Some(Entry::from_line(line)),
+            Ok(line) => Some(Entry::<T>::from_line(line)),
             _ => None,
         }
     }
@@ -43,5 +45,5 @@ impl<T: Entry<T>> Iterator<T> for Entries<T> {
 /// A Trait to represent an entry of data from an
 /// /etc/{`passwd`,`group`,`shadow`} file.
 pub trait Entry<T> {
-    fn from_line(line: String) -> T;
+    fn from_line(line: String) -> Self;
 }

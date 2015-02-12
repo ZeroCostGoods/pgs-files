@@ -22,6 +22,8 @@
 //! }
 //! ```
 
+#![feature(path, libc, io, collections, core)]
+
 extern crate libc;
 
 pub use entries::{Entries,Entry};

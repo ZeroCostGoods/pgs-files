@@ -6,7 +6,7 @@ use entries::{Entries,Entry};
 
 
 /// An entry from /etc/group
-#[deriving(Show, PartialEq, PartialOrd)]
+#[derive(Debug, PartialEq, PartialOrd)]
 pub struct GroupEntry {
 
     /// Group Name
@@ -40,7 +40,7 @@ impl Entry<GroupEntry> for GroupEntry {
         GroupEntry {
             name: parts[0].to_string(),
             passwd: parts[1].to_string(),
-            gid: from_str(parts[2]).unwrap(),
+            gid: parts[2].parse().unwrap(),
             members: members,
         }
     }

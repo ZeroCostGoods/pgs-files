@@ -7,7 +7,7 @@ use entries::{Entries,Entry};
 
 
 /// An entry from /etc/shadow
-#[deriving(Show, PartialEq, PartialOrd)]
+#[derive(Debug, PartialEq, PartialOrd)]
 pub struct ShadowEntry {
     /// Login name
     pub name: String,
@@ -47,13 +47,13 @@ impl Entry<ShadowEntry> for ShadowEntry {
         ShadowEntry {
             name: parts[0].to_string(),
             passwd: parts[1].to_string(),
-            last_change: from_str(parts[2]).unwrap_or(-1),
-            min: from_str(parts[3]).unwrap_or(-1),
-            max: from_str(parts[4]).unwrap_or(-1),
-            warning: from_str(parts[5]).unwrap_or(-1),
-            inactivity: from_str(parts[6]).unwrap_or(-1),
-            expires: from_str(parts[7]).unwrap_or(-1),
-            flag: from_str(parts[8]).unwrap_or(0),
+            last_change: parts[2].parse().unwrap_or(-1),
+            min: parts[3].parse().unwrap_or(-1),
+            max: parts[4].parse().unwrap_or(-1),
+            warning: parts[5].parse().unwrap_or(-1),
+            inactivity: parts[6].parse().unwrap_or(-1),
+            expires: parts[7].parse().unwrap_or(-1),
+            flag: parts[8].parse().unwrap_or(0),
         }
     }
 }
