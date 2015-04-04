@@ -1,5 +1,6 @@
 //! Fuctions and Structs for dealing with /etc/passwd
 
+use std::path::Path;
 use libc::uid_t;
 use libc::gid_t;
 
@@ -31,10 +32,10 @@ pub struct PasswdEntry {
 }
 
 
-impl Entry<PasswdEntry> for PasswdEntry {
+impl Entry for PasswdEntry {
     fn from_line(line: String) -> PasswdEntry {
 
-        let parts: Vec<&str> = line.as_slice().split_str(":").map(|part| part.trim()).collect();
+        let parts: Vec<&str> = line.split(":").map(|part| part.trim()).collect();
 
         PasswdEntry {
             name: parts[0].to_string(),
@@ -66,7 +67,7 @@ pub fn get_entry_by_uid(uid: uid_t) -> Option<PasswdEntry> {
 /// Return a [`PasswdEntry`](struct.PasswdEntry.html)
 /// for a given `name` and `&Path`
 pub fn get_entry_by_name_from_path(path: &Path, name: &str) -> Option<PasswdEntry> {
-    Entries::<PasswdEntry>::new(path).find(|x| x.name.as_slice() == name)
+    Entries::<PasswdEntry>::new(path).find(|x| x.name == name)
 }
 
 

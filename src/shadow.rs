@@ -1,8 +1,8 @@
 //! Fuctions and Structs for dealing with /etc/shadow
 
+use std::path::Path;
 use libc::types::os::arch::c95::c_long;
 use libc::types::os::arch::c95::c_ulong;
-
 use entries::{Entries,Entry};
 
 
@@ -39,10 +39,10 @@ pub struct ShadowEntry {
 }
 
 
-impl Entry<ShadowEntry> for ShadowEntry {
+impl Entry for ShadowEntry {
     fn from_line(line: String) -> ShadowEntry {
 
-        let parts: Vec<&str> = line.as_slice().split_str(":").map(|part| part.trim()).collect();
+        let parts: Vec<&str> = line.split(":").map(|part| part.trim()).collect();
 
         ShadowEntry {
             name: parts[0].to_string(),
@@ -62,7 +62,7 @@ impl Entry<ShadowEntry> for ShadowEntry {
 /// Return a [`ShadowEntry`](struct.ShadowEntry.html)
 /// for a given `name` and `&Path`
 pub fn get_entry_by_name_from_path(path: &Path, name: &str) -> Option<ShadowEntry> {
-    Entries::<ShadowEntry>::new(path).find(|x| x.name.as_slice() == name)
+    Entries::<ShadowEntry>::new(path).find(|x| x.name == name)
 }
 
 

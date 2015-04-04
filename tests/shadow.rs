@@ -1,7 +1,6 @@
-#![feature(path)]
-
 extern crate pgs_files;
 
+use std::path::Path;
 use pgs_files::shadow;
 use pgs_files::shadow::ShadowEntry;
 

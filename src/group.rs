@@ -1,7 +1,7 @@
 //! Fuctions and Structs for dealing with /etc/group
 
+use std::path::Path;
 use libc::gid_t;
-
 use entries::{Entries,Entry};
 
 
@@ -24,14 +24,14 @@ pub struct GroupEntry {
 }
 
 
-impl Entry<GroupEntry> for GroupEntry {
+impl Entry for GroupEntry {
     fn from_line(line: String) -> GroupEntry {
 
-        let parts: Vec<&str> = line.as_slice().split_str(":").map(|part| part.trim()).collect();
+        let parts: Vec<&str> = line.split(":").map(|part| part.trim()).collect();
         let members: Vec<String> = match parts[3].len() {
             0 => Vec::new(),
             _ => parts[3]
-                .split_str(",")
+                .split(",")
                 .map(|member| member.trim())
                 .map(|member| member.to_string())
                 .collect()
@@ -64,7 +64,7 @@ pub fn get_entry_by_gid(gid: gid_t) -> Option<GroupEntry> {
 /// Return a [`GroupEntry`](struct.GroupEntry.html)
 /// for a given `name` and `&Path`
 pub fn get_entry_by_name_from_path(path: &Path, name: &str) -> Option<GroupEntry> {
-    Entries::<GroupEntry>::new(path).find(|x| x.name.as_slice() == name)
+    Entries::<GroupEntry>::new(path).find(|x| x.name == name)
 }
 
 

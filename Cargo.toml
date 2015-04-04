@@ -1,5 +1,13 @@
 [package]
 
-name = "pgs_files"
-version = "0.0.2"
+name = "pgs-files"
+version = "0.0.3"
 authors = ["Gary M. Josack <gary@byoteki.com>"]
+repository = "https://github.com/gmjosack/pgs-files.rs"
+license = "Apache-2.0"
+
+[lib]
+name = "pgs_files"
+
+[dependencies]
+libc = "0.1.5"

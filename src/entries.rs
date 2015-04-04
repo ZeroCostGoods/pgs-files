@@ -1,5 +1,3 @@
-use std::old_io::{BufferedReader,File,IoResult};
-
 /// Generic `Iterator` over implementor's of
 /// [`Entry`](trait.Entry.html)'s.
 ///
@@ -8,6 +6,7 @@ use std::old_io::{BufferedReader,File,IoResult};
 /// #### Iterate over /etc/passwd printing usernames
 ///
 /// ```
+/// use std::path::Path;
 /// use pgs_files::passwd::PasswdEntry;
 /// use pgs_files::Entries;
 ///
@@ -16,27 +15,38 @@ use std::old_io::{BufferedReader,File,IoResult};
 /// }
 /// ```
 
+use std::io::{BufRead,BufReader};
+use std::fs::File;
+use std::path::Path;
+use std::marker::PhantomData;
+
 pub struct Entries<T> {
-    cursor: BufferedReader<IoResult<File>>,
+    cursor: BufReader<File>,
+    marker: PhantomData<T>,
 }
 
 
 impl<T> Entries<T> {
     pub fn new(file: &Path) -> Entries<T> {
-        let reader = BufferedReader::new(File::open(file));
-        Entries { cursor: reader }
+        let reader = BufReader::new(File::open(file).ok().unwrap());
+        Entries {
+            cursor: reader,
+            marker: PhantomData,
+        }
     }
 }
 
 
-impl<T: Entry<T>> Iterator for Entries<T> {
+impl<T: Entry> Iterator for Entries<T> {
 
     type Item = T;
 
     fn next(&mut self) -> Option<T> {
-        match self.cursor.read_line() {
-            Ok(line) => Some(Entry::<T>::from_line(line)),
-            _ => None,
+        let mut line = String::new();
+        match self.cursor.read_line(&mut line){
+            Ok(0) => None,
+            Ok(_) => Some(T::from_line(line)),
+            _     => None,
         }
     }
 
@@ -44,6 +54,6 @@ impl<T: Entry<T>> Iterator for Entries<T> {
 
 /// A Trait to represent an entry of data from an
 /// /etc/{`passwd`,`group`,`shadow`} file.
-pub trait Entry<T> {
+pub trait Entry {
     fn from_line(line: String) -> Self;
 }
