@@ -1,6 +1,6 @@
 # pgs-files
 
-[![Build Status](https://travis-ci.org/gmjosack/pgs-files.rs.png?branch=master)](https://travis-ci.org/gmjosack/pgs-files.rs)
+[![Build Status](https://travis-ci.org/gmjosack/pgs-files.png?branch=master)](https://travis-ci.org/gmjosack/pgs-files)
 [![Crates.io](https://img.shields.io/crates/v/pgs-files.svg)](https://crates.io/crates/pgs-files)
 
 ### Description
