@@ -1,22 +1,31 @@
 language: rust
 
-env:
-  global:
-      - secure: G8CGeFylCXfMjrY1qSS0YMHq2PT3KLGVoc40kgutNGr6h/BIwaOGPZNovbjXi8oCAQRFKGD7BztsYgW9lYhNmZbtLAcVN0EiKHfzJAY5tdV/D68DY0ju0jwZKp3oiMiQE8ykzzAjM+MdZOCyTQX7D1P13L+R7aGqMz5AIdOnBUg=
+rust:
+  - 1.1.0
+  - beta
+  - nightly
 
 os:
-    - linux
+  - linux
 
 script:
-    - cargo build --verbose
-    - cargo test --verbose
-    - cargo doc --verbose
+  - cargo build --verbose
+  - cargo test --verbose
+  - cargo doc --verbose
 
-after_success:
-    - cp -R target/doc doc
-    - curl http://www.rust-ci.org/artifacts/put?t=$RUSTCI_TOKEN | sh
-    - rm -r doc
+notifications:
+  email:
+    on_success: never
 
-branches:
-  only:
-    - master
+env:
+  global:
+    secure: Z8eTubrlQvBBNRRu1uiv8qeS0sIL+9tfopDD236ELCeGOEaqHNBBof4wko/wtdZIFAg27g728jYR7RCSpBA9mU916luak0DZ8Fz2MYOABVcXmG8S8thhdwlXeNNf146Fn/3xwE2iwulgxAQAPiiQToyQNyq7YvZADoaKxhb29mc=
+
+after_success: |
+  [ $TRAVIS_BRANCH = master ] &&
+  [ $TRAVIS_PULL_REQUEST = false ] &&
+  echo '<meta http-equiv=refresh content=0;url=procure/index.html>' > target/doc/index.html &&
+  pip install ghp-import --user $USER &&
+  $HOME/.local/bin/ghp-import -n target/doc &&
+  git push -fq https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git gh-pages
+
