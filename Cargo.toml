@@ -1,10 +1,10 @@
 [package]
 
 name = "pgs-files"
-version = "0.0.3"
+version = "0.0.4"
 authors = ["Gary M. Josack <gary@byoteki.com>"]
-repository = "https://github.com/gmjosack/pgs-files.rs"
-documentation = "http://gmjosack.github.io/pgs-files.rs"
+repository = "https://github.com/gmjosack/pgs-files"
+documentation = "http://gmjosack.github.io/pgs-files"
 license = "Apache-2.0"
 description = "Rust Library for handling /etc/{passwd,group,shadow} files"
 
@@ -12,4 +12,4 @@ description = "Rust Library for handling /etc/{passwd,group,shadow} files"
 name = "pgs_files"
 
 [dependencies]
-libc = "0.1.5"
+libc = "0.1.9"
