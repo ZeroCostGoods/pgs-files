@@ -43,11 +43,24 @@ impl<T: Entry> Iterator for Entries<T> {
 
     fn next(&mut self) -> Option<T> {
         let mut line = String::new();
-        match self.cursor.read_line(&mut line){
-            Ok(0) => None,
-            Ok(_) => Some(T::from_line(line)),
-            _     => None,
+        loop {
+            // We might need to make multiple loops to drain off
+            // comment lines. Start with an empty string per loop.
+            line.clear();
+            match self.cursor.read_line(&mut line){
+                Ok(0) => return None,
+                Ok(_) => (),
+                _     => return None,
+            }
+
+            if line.starts_with("#") {
+                continue;
+            }
+
+            break;
         }
+
+        Some(T::from_line(line))
     }
 
 }
