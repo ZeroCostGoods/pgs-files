@@ -19,12 +19,13 @@ use std::io::{BufRead,BufReader};
 use std::fs::File;
 use std::path::Path;
 use std::marker::PhantomData;
+use std::num::ParseIntError;
+
 
 pub struct Entries<T> {
     cursor: BufReader<File>,
     marker: PhantomData<T>,
 }
-
 
 impl<T> Entries<T> {
     pub fn new(file: &Path) -> Entries<T> {
@@ -57,16 +58,18 @@ impl<T: Entry> Iterator for Entries<T> {
                 continue;
             }
 
-            break;
+            match T::from_line(&line) {
+                Ok(entry) => return Some(entry),
+                // Parse Error. Just ignore this entry.
+                _         => (),
+            }
         }
-
-        Some(T::from_line(line))
     }
 
 }
 
 /// A Trait to represent an entry of data from an
 /// /etc/{`passwd`,`group`,`shadow`} file.
-pub trait Entry {
-    fn from_line(line: String) -> Self;
+pub trait Entry: Sized {
+    fn from_line(line: &str) -> Result<Self, ParseIntError>;
 }

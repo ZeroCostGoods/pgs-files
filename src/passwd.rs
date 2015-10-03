@@ -1,6 +1,7 @@
 //! Fuctions and Structs for dealing with /etc/passwd
 
 use std::path::Path;
+use std::num::ParseIntError;
 use libc::uid_t;
 use libc::gid_t;
 
@@ -33,19 +34,19 @@ pub struct PasswdEntry {
 
 
 impl Entry for PasswdEntry {
-    fn from_line(line: String) -> PasswdEntry {
+    fn from_line(line: &str) -> Result<PasswdEntry, ParseIntError> {
 
         let parts: Vec<&str> = line.split(":").map(|part| part.trim()).collect();
 
-        PasswdEntry {
+        Ok(PasswdEntry {
             name: parts[0].to_string(),
             passwd: parts[1].to_string(),
-            uid: parts[2].parse().unwrap(),
-            gid: parts[3].parse().unwrap(),
+            uid: try!(parts[2].parse()),
+            gid: try!(parts[3].parse()),
             gecos: parts[4].to_string(),
             dir: parts[5].to_string(),
             shell: parts[6].to_string(),
-        }
+        })
     }
 }
 

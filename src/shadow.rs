@@ -1,6 +1,7 @@
 //! Fuctions and Structs for dealing with /etc/shadow
 
 use std::path::Path;
+use std::num::ParseIntError;
 use libc::types::os::arch::c95::c_long;
 use libc::types::os::arch::c95::c_ulong;
 use entries::{Entries,Entry};
@@ -40,11 +41,11 @@ pub struct ShadowEntry {
 
 
 impl Entry for ShadowEntry {
-    fn from_line(line: String) -> ShadowEntry {
+    fn from_line(line: &str) -> Result<ShadowEntry, ParseIntError> {
 
         let parts: Vec<&str> = line.split(":").map(|part| part.trim()).collect();
 
-        ShadowEntry {
+        Ok(ShadowEntry {
             name: parts[0].to_string(),
             passwd: parts[1].to_string(),
             last_change: parts[2].parse().unwrap_or(-1),
@@ -54,7 +55,7 @@ impl Entry for ShadowEntry {
             inactivity: parts[6].parse().unwrap_or(-1),
             expires: parts[7].parse().unwrap_or(-1),
             flag: parts[8].parse().unwrap_or(0),
-        }
+        })
     }
 }
 

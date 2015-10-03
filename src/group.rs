@@ -1,6 +1,7 @@
 //! Fuctions and Structs for dealing with /etc/group
 
 use std::path::Path;
+use std::num::ParseIntError;
 use libc::gid_t;
 use entries::{Entries,Entry};
 
@@ -25,7 +26,7 @@ pub struct GroupEntry {
 
 
 impl Entry for GroupEntry {
-    fn from_line(line: String) -> GroupEntry {
+    fn from_line(line: &str) -> Result<GroupEntry, ParseIntError> {
 
         let parts: Vec<&str> = line.split(":").map(|part| part.trim()).collect();
         let members: Vec<String> = match parts[3].len() {
@@ -37,12 +38,12 @@ impl Entry for GroupEntry {
                 .collect()
         };
 
-        GroupEntry {
+        Ok(GroupEntry {
             name: parts[0].to_string(),
             passwd: parts[1].to_string(),
-            gid: parts[2].parse().unwrap(),
+            gid: try!(parts[2].parse()),
             members: members,
-        }
+        })
     }
 }
 
