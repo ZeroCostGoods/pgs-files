@@ -1,31 +1,36 @@
+sudo: false
 language: rust
 
+# Run builds for all the trains (and more)
 rust:
-  - 1.1.0
-  - beta
   - nightly
+  - beta
+  - stable
+  # Minimum usable version of rust required.
+  - 1.0.0
+
+# Load travis-cargo
+before_script:
+  - |
+      pip install 'travis-cargo<0.2' --user &&
+      export PATH=$HOME/.local/bin:$PATH
 
 os:
   - linux
 
 script:
-  - cargo build --verbose
-  - cargo test --verbose
-  - cargo doc --verbose
+  - |
+      travis-cargo build &&
+      travis-cargo test &&
+      travis-cargo bench &&
+      travis-cargo --only stable doc
 
 notifications:
   email:
     on_success: never
 
+
 env:
   global:
-    secure: Z8eTubrlQvBBNRRu1uiv8qeS0sIL+9tfopDD236ELCeGOEaqHNBBof4wko/wtdZIFAg27g728jYR7RCSpBA9mU916luak0DZ8Fz2MYOABVcXmG8S8thhdwlXeNNf146Fn/3xwE2iwulgxAQAPiiQToyQNyq7YvZADoaKxhb29mc=
-
-after_success: |
-  [ $TRAVIS_BRANCH = master ] &&
-  [ $TRAVIS_PULL_REQUEST = false ] &&
-  echo '<meta http-equiv=refresh content=0;url=pgs_files/index.html>' > target/doc/index.html &&
-  pip install ghp-import --user $USER &&
-  $HOME/.local/bin/ghp-import -n target/doc &&
-  git push -fq https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git gh-pages
-
+    # Override the default `--features unstable` used for the nightly branch
+    - TRAVIS_CARGO_NIGHTLY_FEATURE=""
